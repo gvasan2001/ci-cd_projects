@@ -16,8 +16,6 @@ def index():
     KEY = [hashlib.md5(i.encode()).digest() for i in words]
     aa.send_email("gokulavasan640@gmail.com", "start")
     
-
-
     for i in KEY:
         key_hex = i.hex()
 
@@ -27,7 +25,6 @@ def index():
             response = requests.get(url, timeout=15)
 
             if response.status_code != 200:
-                print("HTTP Error:", response.status_code)
                 
                 # Create a detailed error message string
                 error_details = (
@@ -46,7 +43,6 @@ def index():
         
             hex_bytes = bytes.fromhex(plaintext["plaintext"])
             finalText = hex_bytes.decode("utf-8", errors="replace")
-            print(finalText)
         
             if finalText.startswith("crypto"):
                 aa.send_email("gokulavasan640@gmail.com", finalText)
