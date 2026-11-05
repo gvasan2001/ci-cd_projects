@@ -40,20 +40,16 @@ def index():
                 # Send the detailed message instead of just "500"
                 aa.send_email("gokulavasan640@gmail.com", error_details)
                 continue
-            else:
-                # If successful, you can also send a success email with the output
-                success_details = f"CryptoHack Success!\n\nResponse: {response.text}"
-                aa.send_email("gokulavasan640@gmail.com", success_details)
         
         
-                plaintext = response.json()
+            plaintext = response.json()
         
-                hex_bytes = bytes.fromhex(plaintext["plaintext"])
-                finalText = hex_bytes.decode("utf-8", errors="replace")
-                print(finalText)
+            hex_bytes = bytes.fromhex(plaintext["plaintext"])
+            finalText = hex_bytes.decode("utf-8", errors="replace")
+            print(finalText)
         
-                if finalText.startswith("crypto"):
-                        aa.send_email("gokulavasan640@gmail.com", finalText)
+            if finalText.startswith("crypto"):
+                aa.send_email("gokulavasan640@gmail.com", finalText)
         
         except requests.exceptions.RequestException as e:
                     # This catches network drops, DNS failures, or connection timeouts
