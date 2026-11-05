@@ -8,7 +8,7 @@ import json
 aa=data_base.data_base()
 
 def index():
-    with open("/words.txt") as f:
+    with open("words.txt") as f:
         words = [w.strip() for w in f.readlines()]
 
 
