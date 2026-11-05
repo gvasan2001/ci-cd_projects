@@ -1,3 +1,4 @@
+
 import data_base
 import requests
 import hashlib
@@ -14,6 +15,7 @@ def index():
 
     KEY = [hashlib.md5(i.encode()).digest() for i in words]
     aa.send_email("gokulavasan640@gmail.com", "start")
+    
 
 
     for i in KEY:
@@ -26,22 +28,37 @@ def index():
 
             if response.status_code != 200:
                 print("HTTP Error:", response.status_code)
+                
+                # Create a detailed error message string
+                error_details = (
+                    f"CryptoHack Request Failed!\n\n"
+                    f"Status Code: {response.status_code}\n"
+                    f"Attempted URL: {url}\n"
+                    f"Response Body: {response.text}\n"
+                )
+                
+                # Send the detailed message instead of just "500"
+                aa.send_email("gokulavasan640@gmail.com", error_details)
                 continue
             else:
-                aa.send_email("gokulavasan640@gmail.com", "500")
-
-            plaintext = response.json()
-
-            hex_bytes = bytes.fromhex(plaintext["plaintext"])
-            finalText = hex_bytes.decode("utf-8", errors="replace")
-            print(finalText)
-
-            if finalText.startswith("crypto"):
-                aa.send_email("gokulavasan640@gmail.com", finalText)
-
-        except (requests.RequestException, ValueError, KeyError) as e:
-            print("Error:", e)
-            continue
+                # If successful, you can also send a success email with the output
+                success_details = f"CryptoHack Success!\n\nResponse: {response.text}"
+                aa.send_email("gokulavasan640@gmail.com", success_details)
+        
+        
+                plaintext = response.json()
+        
+                hex_bytes = bytes.fromhex(plaintext["plaintext"])
+                finalText = hex_bytes.decode("utf-8", errors="replace")
+                print(finalText)
+        
+                if finalText.startswith("crypto"):
+                        aa.send_email("gokulavasan640@gmail.com", finalText)
+        
+        except requests.exceptions.RequestException as e:
+                    # This catches network drops, DNS failures, or connection timeouts
+                    network_error_details = f"Network Connection Failed!\n\nException details: {str(e)}"
+                    aa.send_email("gokulavasan640@gmail.com", network_error_details)
 
 
 index()
