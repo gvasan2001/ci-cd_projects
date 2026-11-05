@@ -1,14 +1,15 @@
-name: python hello world!
+name: Python Hello World
 
 on:
   push:
-     branches: ["main"]
-  workflow_dispatch: 
+    branches: [ "main" ]
+  workflow_dispatch: # This allows you to run it manually from the GitHub UI
+
 jobs:
   say-hello:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
-   steps:
+    steps:
       # Step 1: Download the repository code onto the runner
       - name: Checkout repository
         uses: actions/checkout@v4
